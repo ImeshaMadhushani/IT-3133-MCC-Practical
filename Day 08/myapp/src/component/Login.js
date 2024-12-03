@@ -14,7 +14,7 @@ export default function Login() {
         //console.log(user);
         if (user.username === "Admin" && user.pwd === "abc@123") {
             setUser({ username: "", pwd: "", error: "" })
-            navigate('/dash');
+            navigate('/dashboard');
         } else {
             setUser({ 'error': "Please check your username and password !" })
         }

@@ -18,8 +18,9 @@ A simple and intuitive **Currency Converter** app built using **React Native** a
 ## 🖼️ Screenshots
 
 
-[Screenshot 2024-12-23 114858](https://github.com/user-attachments/assets/f6e833b2-af3d-46f4-93f8-f540281a93c9)
-[Screenshot 2024-12-23 114937](https://github.com/user-attachments/assets/eefe5c32-47c2-43e0-8171-9834e14d8e2b)
+
+![Screenshot 2024-12-23 114858](https://github.com/user-attachments/assets/cfae3733-2100-4ae5-87d0-bccd0851d62f)
 
 
 
+![Screenshot 2024-12-23 114937](https://github.com/user-attachments/assets/6c468408-51e2-4ad9-b07a-24c107544462)

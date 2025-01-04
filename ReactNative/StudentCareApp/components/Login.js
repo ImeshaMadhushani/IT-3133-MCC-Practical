@@ -9,6 +9,8 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import { students } from '../data/StudentsDb.js';
+import { useNavigation } from '@react-navigation/native';
 
 export default function StudentLogin() {
     const [showPassword, setShowPassword] = useState(false);
@@ -16,8 +18,23 @@ export default function StudentLogin() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
 
+
+    const navigation = useNavigation();
+
+
     const handleLogin = () => {
-        setError(true); // For demonstration purposes
+        const user = students.find(
+            student => student.username === username && student.password === password
+        );
+
+        if (user) {
+            setError(false);
+            // Perform successful login actions, e.g., navigate to the dashboard
+            navigation.navigate('Home', { screen: 'Profile', params: { user } });
+            console.log('Login successful for:', user.name);
+        } else {
+            setError(true); // Show error message
+        }
     };
 
     return (

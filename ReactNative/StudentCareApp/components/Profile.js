@@ -1,56 +1,77 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView, ScrollView, Platform, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import { students } from '../data/StudentsDb.js'; // Assuming the students data is in StudentsDb.js
+import { students } from '../data/StudentsDb.js';
 
-export default function Profile() {
-    const student = students[0]; // Replace with dynamic logic if needed
+export default function Profile({ route, navigation }) {
+    const { user } = route.params;
+    const [selectedStudent, setSelectedStudent] = useState(null);
+
+    useEffect(() => {
+        const student = students.find(student => student.id === user.id);
+        setSelectedStudent(student);
+    }, [user]);
+
+    if (!selectedStudent) {
+        return (
+            <View style={styles.errorContainer}>
+                <Text style={styles.errorText}>Student not found</Text>
+            </View>
+        );
+    }
 
     return (
         <SafeAreaView style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
-                <TouchableOpacity style={styles.backButton}>
+                <TouchableOpacity
+                    style={styles.backButton}
+                    onPress={() => navigation.goBack()}
+                    accessibilityLabel="Go back"
+                >
                     <Icon name="arrow-left" size={24} color="white" />
                 </TouchableOpacity>
                 <Text style={styles.headerTitle}>UoV Student Care</Text>
             </View>
 
             {/* Main Content */}
-            <View style={styles.content}>
+            <ScrollView style={styles.content}>
                 {/* University Logo */}
                 <Image
                     source={require('../assets/Logo.png')}
                     style={styles.universityLogo}
                     resizeMode="contain"
+                    accessible
+                    accessibilityLabel="University Logo"
                 />
 
                 {/* Profile Section */}
                 <View style={styles.profileSection}>
                     <Image
-                        source={student.profile_pic}
+                        source={selectedStudent.profile_pic}
                         style={styles.avatar}
+                        accessible
+                        accessibilityLabel={`${selectedStudent.name}'s profile picture`}
                     />
-                    <Text style={styles.name}>{student.name}</Text>
-                    <Text style={styles.basicInfo}>Age: {student.age} | Gender: {student.gender}</Text>
+                    <Text style={styles.name}>{selectedStudent.name}</Text>
+                    <Text style={styles.basicInfo}>Age: {selectedStudent.age} | Gender: {selectedStudent.gender}</Text>
 
                     {/* Contact Information */}
                     <View style={styles.infoSection}>
                         <Text style={styles.sectionTitle}>Contact Information</Text>
-                        <Text style={styles.infoText}>Email: {student.email}</Text>
-                        <Text style={styles.infoText}>Phone: {student.phone}</Text>
-                        <Text style={styles.infoText}>Address: {student.address}</Text>
+                        <Text style={styles.infoText}>Email: {selectedStudent.email}</Text>
+                        <Text style={styles.infoText}>Phone: {selectedStudent.phone}</Text>
+                        <Text style={styles.infoText}>Address: {selectedStudent.address}</Text>
                     </View>
 
                     {/* Biological Information */}
                     <View style={styles.infoSection}>
                         <Text style={styles.sectionTitle}>Biological Information</Text>
-                        <Text style={styles.infoText}>Gender: {student.gender}</Text>
-                        <Text style={styles.infoText}>Age: {student.age}</Text>
-                        <Text style={styles.infoText}>Blood Group: {student.blood_group}</Text>
+                        <Text style={styles.infoText}>Gender: {selectedStudent.gender}</Text>
+                        <Text style={styles.infoText}>Blood Group: {selectedStudent.blood_group}</Text>
                     </View>
                 </View>
-            </View>
+            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -65,7 +86,7 @@ const styles = StyleSheet.create({
         padding: 16,
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 50,
+        marginTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
     },
     backButton: {
         marginRight: 16,
@@ -120,5 +141,14 @@ const styles = StyleSheet.create({
     infoText: {
         fontSize: 16,
         marginBottom: 4,
+    },
+    errorContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    errorText: {
+        fontSize: 18,
+        color: 'red',
     },
 });

@@ -12,14 +12,7 @@ export default function Profile({ route, navigation }) {
         setSelectedStudent(student);
     }, [user]);
 
-    if (!selectedStudent) {
-        return (
-            <View style={styles.errorContainer}>
-                <Text style={styles.errorText}>Student not found</Text>
-            </View>
-        );
-    }
-
+  
     return (
         <SafeAreaView style={styles.container}>
             {/* Header */}
@@ -86,7 +79,7 @@ const styles = StyleSheet.create({
         padding: 16,
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
+        marginTop: 50,
     },
     backButton: {
         marginRight: 16,

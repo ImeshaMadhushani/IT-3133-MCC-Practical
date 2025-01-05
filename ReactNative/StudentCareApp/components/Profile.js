@@ -12,7 +12,14 @@ export default function Profile({ route, navigation }) {
         setSelectedStudent(student);
     }, [user]);
 
-  
+    if (!selectedStudent) {
+        return (
+            <SafeAreaView style={styles.errorContainer}>
+                <Text style={styles.errorText}>Student not found</Text>
+            </SafeAreaView>
+        );
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             {/* Header */}
